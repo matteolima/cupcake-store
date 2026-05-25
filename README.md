@@ -27,7 +27,7 @@ Protótipo funcional de uma loja virtual de cupcakes desenvolvido como **Projeto
 
 ```bash
 # 1. Clone o repositório
-git clone https://github.com/SEU_USUARIO/cupcake-store.git
+git clone https://github.com/matteolima/cupcake-store.git
 
 # 2. Entre na pasta do projeto
 cd cupcake-store
@@ -67,6 +67,19 @@ cupcake-store/
 ├── tailwind.config.js
 └── postcss.config.js
 ```
+
+---
+
+## 🔑 Contas de Teste
+
+O login é **simulado** — qualquer e-mail e senha válidos são aceitos e redirecionam para o painel Admin.
+
+| Campo | Exemplo |
+|-------|---------|
+| E-mail | `admin@cupcakestore.com` |
+| Senha | `qualquer senha` |
+
+> Não há validação de credenciais; basta preencher os dois campos e clicar em **Acessar**.
 
 ---
 
