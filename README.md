@@ -4,6 +4,8 @@ Protótipo funcional de uma loja virtual de cupcakes desenvolvido como **Projeto
 
 **Autor:** Cláudio Matteo Assunção Lima
 
+🌐 **Acesse o projeto online:** [https://matteolima.github.io/cupcake-store/](https://matteolima.github.io/cupcake-store/)
+
 ---
 
 ## 🚀 Tecnologias Utilizadas
@@ -17,7 +19,7 @@ Protótipo funcional de uma loja virtual de cupcakes desenvolvido como **Projeto
 
 ---
 
-## 📦 Como Executar Localmente
+## 📦 Como Executar Localmente (desenvolvimento)
 
 ### Pré-requisitos
 - [Node.js](https://nodejs.org/) versão 18 ou superior
