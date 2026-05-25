@@ -74,14 +74,25 @@ cupcake-store/
 
 ## 🔑 Contas de Teste
 
-O login é **simulado** — qualquer e-mail e senha válidos são aceitos e redirecionam para o painel Admin.
+A autenticação é real — as credenciais são validadas e a sessão é mantida via `localStorage`.
 
-| Campo | Exemplo |
-|-------|---------|
-| E-mail | `admin@cupcakestore.com` |
-| Senha | `qualquer senha` |
+### Contas pré-cadastradas
 
-> Não há validação de credenciais; basta preencher os dois campos e clicar em **Acessar**.
+| Perfil | E-mail | Senha | Acesso |
+|--------|--------|-------|--------|
+| Admin  | `admin@cupcakestore.com` | `admin123` | Painel Admin completo |
+| Admin  | `carla@email.com`        | `admin123` | Painel Admin completo |
+| Cliente | `ana@email.com`         | `senha123` | Vitrine e Carrinho |
+| Cliente | `bruno@email.com`       | `senha123` | Vitrine e Carrinho |
+| Cliente | `elisa@email.com`       | `senha123` | Vitrine e Carrinho |
+
+### Cadastro de novos usuários
+
+- Acesse **Cadastrar** no menu
+- Para criar uma conta **Admin**, informe o código: `ADMIN2026`
+- Sem o código, a conta é criada como **Cliente**
+
+> Os dados ficam salvos no `localStorage` do navegador — ao limpar o histórico, os cadastros são redefinidos para os valores iniciais.
 
 ---
 

@@ -10,7 +10,8 @@ import Pedidos      from './admin/Pedidos';
 import Produtos     from './admin/Produtos';
 import Estoque      from './admin/Estoque';
 import Configuracoes from './admin/Configuracoes';
-import { pedidosIniciais, usuariosIniciais, configuracoesIniciais } from '../data/mockData';
+import { pedidosIniciais, configuracoesIniciais } from '../data/mockData';
+import { getUsers, saveUsers } from '../auth/auth';
 
 const MENU = [
   { id: 'dashboard',     label: 'Dashboard',       Icone: LayoutDashboard },
@@ -22,12 +23,29 @@ const MENU = [
   { id: 'configuracoes', label: 'Configurações',    Icone: Settings },
 ];
 
-export default function Admin({ cupcakes, setCupcakes, setActiveTab }) {
+export default function Admin({ cupcakes, setCupcakes, setActiveTab, usuarioLogado }) {
   const [secao,    setSecao]    = useState('dashboard');
   const [aberta,   setAberta]   = useState(true);
-  const [usuarios, setUsuarios] = useState(usuariosIniciais);
+  // Lê usuários do localStorage (sem senha) para exibição
+  const [usuarios, setUsuariosState] = useState(() =>
+    getUsers().map(({ senha: _, ...u }) => u)
+  );
   const [pedidos,  setPedidos]  = useState(pedidosIniciais);
   const [config,   setConfig]   = useState(configuracoesIniciais);
+
+  // Wrapper que sincroniza com localStorage ao atualizar usuários
+  const setUsuarios = (fn) => {
+    setUsuariosState((prev) => {
+      const updated = typeof fn === 'function' ? fn(prev) : fn;
+      // Preserva senhas ao salvar
+      const withPasswords = updated.map((u) => {
+        const existing = getUsers().find((g) => g.id === u.id);
+        return existing ? { ...existing, ...u } : u;
+      });
+      saveUsers(withPasswords);
+      return updated;
+    });
+  };
 
   const renderSecao = () => {
     switch (secao) {
