@@ -14,9 +14,19 @@ export default function Vitrine({ cupcakes, adicionarAoCarrinho }) {
             key={cupcake.id}
             className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow overflow-hidden border border-pink-100"
           >
-            <div className={`${cupcake.cor} h-40 flex items-center justify-center`}>
-              <span className="text-6xl">{cupcake.emoji}</span>
-            </div>
+            {/* Imagem ou emoji */}
+            {cupcake.imagem ? (
+              <img
+                src={cupcake.imagem}
+                alt={cupcake.nome}
+                className="w-full h-40 object-cover"
+              />
+            ) : (
+              <div className={`${cupcake.cor} h-40 flex items-center justify-center`}>
+                <span className="text-6xl">{cupcake.emoji}</span>
+              </div>
+            )}
+
             <div className="p-5">
               <h2 className="text-lg font-bold text-gray-800 mb-1">{cupcake.nome}</h2>
               <p className="text-sm text-gray-500 mb-4">{cupcake.descricao}</p>
@@ -26,10 +36,11 @@ export default function Vitrine({ cupcakes, adicionarAoCarrinho }) {
                 </span>
                 <button
                   onClick={() => adicionarAoCarrinho(cupcake)}
-                  className="flex items-center gap-2 bg-pink-600 hover:bg-pink-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+                  disabled={cupcake.estoque === 0}
+                  className="flex items-center gap-2 bg-pink-600 hover:bg-pink-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
                 >
                   <ShoppingCart size={16} />
-                  Adicionar
+                  {cupcake.estoque === 0 ? 'Esgotado' : 'Adicionar'}
                 </button>
               </div>
             </div>

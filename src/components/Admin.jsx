@@ -10,7 +10,7 @@ import Pedidos      from './admin/Pedidos';
 import Produtos     from './admin/Produtos';
 import Estoque      from './admin/Estoque';
 import Configuracoes from './admin/Configuracoes';
-import { pedidosIniciais, configuracoesIniciais } from '../data/mockData';
+import { configuracoesIniciais } from '../data/mockData';
 import { getUsers, saveUsers } from '../auth/auth';
 
 const MENU = [
@@ -23,15 +23,13 @@ const MENU = [
   { id: 'configuracoes', label: 'Configurações',    Icone: Settings },
 ];
 
-export default function Admin({ cupcakes, setCupcakes, setActiveTab, usuarioLogado }) {
+export default function Admin({ cupcakes, setCupcakes, setActiveTab, usuarioLogado, config, setConfig }) {
   const [secao,    setSecao]    = useState('dashboard');
   const [aberta,   setAberta]   = useState(true);
   // Lê usuários do localStorage (sem senha) para exibição
   const [usuarios, setUsuariosState] = useState(() =>
     getUsers().map(({ senha: _, ...u }) => u)
   );
-  const [pedidos,  setPedidos]  = useState(pedidosIniciais);
-  const [config,   setConfig]   = useState(configuracoesIniciais);
 
   // Wrapper que sincroniza com localStorage ao atualizar usuários
   const setUsuarios = (fn) => {
@@ -49,14 +47,14 @@ export default function Admin({ cupcakes, setCupcakes, setActiveTab, usuarioLoga
 
   const renderSecao = () => {
     switch (secao) {
-      case 'dashboard':     return <Dashboard     cupcakes={cupcakes} usuarios={usuarios} pedidos={pedidos} />;
+      case 'dashboard':     return <Dashboard     cupcakes={cupcakes} usuarios={usuarios} />;
       case 'preview':       return <PreviewLoja   cupcakes={cupcakes} />;
       case 'usuarios':      return <Usuarios      usuarios={usuarios} setUsuarios={setUsuarios} />;
-      case 'pedidos':       return <Pedidos       pedidos={pedidos}   setPedidos={setPedidos} />;
+      case 'pedidos':       return <Pedidos />;
       case 'produtos':      return <Produtos      cupcakes={cupcakes} setCupcakes={setCupcakes} />;
       case 'estoque':       return <Estoque       cupcakes={cupcakes} setCupcakes={setCupcakes} />;
       case 'configuracoes': return <Configuracoes config={config}     setConfig={setConfig} />;
-      default:              return <Dashboard     cupcakes={cupcakes} usuarios={usuarios} pedidos={pedidos} />;
+      default:              return <Dashboard     cupcakes={cupcakes} usuarios={usuarios} />;
     }
   };
 

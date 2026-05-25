@@ -1,4 +1,5 @@
 import { DollarSign, Users, Package, TrendingUp, ShoppingBag, AlertTriangle } from 'lucide-react';
+import { getPedidos } from '../../data/storage';
 
 const STATUS_COLOR = {
   pendente:   'bg-yellow-100 text-yellow-700',
@@ -12,7 +13,8 @@ const STATUS_LABEL = {
   enviado: 'Enviado', entregue: 'Entregue', cancelado: 'Cancelado',
 };
 
-export default function Dashboard({ cupcakes, usuarios, pedidos }) {
+export default function Dashboard({ cupcakes, usuarios }) {
+  const pedidos = getPedidos();
   const totalVendas        = pedidos.reduce((s, p) => s + p.total, 0);
   const totalEstoque       = cupcakes.reduce((s, c) => s + c.estoque, 0);
   const produtosAtivos     = cupcakes.filter((c) => c.ativo).length;

@@ -1,43 +1,17 @@
-import { Trash2, ShoppingBag, CheckCircle } from 'lucide-react';
-import { useState } from 'react';
+import { Trash2, ShoppingBag } from 'lucide-react';
 
 export default function Carrinho({ carrinho, setCarrinho, setActiveTab }) {
-  const [sucesso, setSucesso] = useState(false);
-
-  const removerItem = (id) => {
-    setCarrinho(carrinho.filter((item) => item.id !== id));
-  };
+  const removerItem = (id) => setCarrinho(carrinho.filter((item) => item.id !== id));
 
   const alterarQuantidade = (id, delta) => {
     setCarrinho(
       carrinho.map((item) =>
-        item.id === id
-          ? { ...item, quantidade: Math.max(1, item.quantidade + delta) }
-          : item
+        item.id === id ? { ...item, quantidade: Math.max(1, item.quantidade + delta) } : item
       )
     );
   };
 
   const total = carrinho.reduce((acc, item) => acc + item.preco * item.quantidade, 0);
-
-  const finalizarCompra = () => {
-    setCarrinho([]);
-    setSucesso(true);
-    setTimeout(() => {
-      setSucesso(false);
-      setActiveTab('vitrine');
-    }, 3000);
-  };
-
-  if (sucesso) {
-    return (
-      <div className="max-w-6xl mx-auto px-4 py-16 flex flex-col items-center justify-center text-center">
-        <CheckCircle size={72} className="text-green-500 mb-4" />
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">Pedido realizado com sucesso!</h2>
-        <p className="text-gray-500">Obrigado pela sua compra. Redirecionando para a vitrine...</p>
-      </div>
-    );
-  }
 
   if (carrinho.length === 0) {
     return (
@@ -121,10 +95,10 @@ export default function Carrinho({ carrinho, setCarrinho, setActiveTab }) {
           </p>
         </div>
         <button
-          onClick={finalizarCompra}
+          onClick={() => setActiveTab('checkout')}
           className="bg-pink-600 hover:bg-pink-700 text-white font-bold px-8 py-3 rounded-xl transition-colors text-lg w-full sm:w-auto"
         >
-          Finalizar Compra
+          Finalizar Compra →
         </button>
       </div>
     </div>

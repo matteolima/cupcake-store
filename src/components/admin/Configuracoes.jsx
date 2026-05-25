@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Save, MapPin, Truck, CreditCard, QrCode } from 'lucide-react';
+import { saveConfig } from '../../data/storage';
 
 const ABAS = [
   { id: 'loja',      label: 'Endereço',  Icone: MapPin },
@@ -34,7 +35,7 @@ export default function Configuracoes({ config, setConfig }) {
   const up = (secao, campo, valor) =>
     setConfig((prev) => ({ ...prev, [secao]: { ...prev[secao], [campo]: valor } }));
 
-  const salvar = () => { setSalvo(true); setTimeout(() => setSalvo(false), 2500); };
+  const salvar = () => { saveConfig(config); setSalvo(true); setTimeout(() => setSalvo(false), 2500); };
 
   return (
     <div className="space-y-4">

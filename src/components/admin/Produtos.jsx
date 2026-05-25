@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { Plus, Edit2, Trash2, X, Save } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { Plus, Edit2, Trash2, X, Save, ImagePlus } from 'lucide-react';
 
 const VAZIO = {
   nome: '', descricao: '', ingredientes: '',
-  preco: '', estoque: '', emoji: '🧁', cor: 'bg-pink-400', ativo: true,
+  preco: '', estoque: '', emoji: '🧁', cor: 'bg-pink-400', ativo: true, imagem: null,
 };
 
 const CORES = [
@@ -11,9 +11,66 @@ const CORES = [
   'bg-yellow-300','bg-green-400','bg-teal-400','bg-blue-400','bg-purple-400',
 ];
 
+function UploadImagem({ dados, set }) {
+  const inputRef = useRef(null);
+  const [erroImg, setErroImg] = useState('');
+
+  const handleFile = (e) => {
+    setErroImg('');
+    const file = e.target.files[0];
+    if (!file) return;
+    if (!['image/png', 'image/jpeg', 'image/jpg'].includes(file.type)) {
+      setErroImg('Apenas PNG ou JPG são aceitos.');
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      setErroImg('Imagem deve ter no máximo 2 MB.');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (ev) => set((p) => ({ ...p, imagem: ev.target.result }));
+    reader.readAsDataURL(file);
+  };
+
+  return (
+    <div>
+      <label className="text-sm font-medium text-gray-700">Imagem do produto</label>
+      <div className="mt-1 flex items-center gap-3">
+        {/* Preview */}
+        <div className={`w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-gray-200 flex items-center justify-center
+          ${dados.imagem ? '' : dados.cor}`}>
+          {dados.imagem
+            ? <img src={dados.imagem} alt="preview" className="w-full h-full object-cover" />
+            : <span className="text-2xl">{dados.emoji}</span>
+          }
+        </div>
+        <div className="flex-1">
+          <button type="button" onClick={() => inputRef.current?.click()}
+            className="flex items-center gap-2 border border-dashed border-pink-300 hover:border-pink-500 bg-pink-50 hover:bg-pink-100 text-pink-600 text-sm font-medium px-4 py-2 rounded-lg transition-colors w-full justify-center">
+            <ImagePlus size={16} />
+            {dados.imagem ? 'Trocar imagem' : 'Enviar PNG ou JPG'}
+          </button>
+          {dados.imagem && (
+            <button type="button" onClick={() => set((p) => ({ ...p, imagem: null }))}
+              className="mt-1 text-xs text-red-400 hover:text-red-600 w-full text-center">
+              Remover imagem
+            </button>
+          )}
+          <p className="text-xs text-gray-400 mt-1">PNG ou JPG • máx. 2 MB</p>
+        </div>
+      </div>
+      {erroImg && <p className="text-xs text-red-500 mt-1">{erroImg}</p>}
+      <input ref={inputRef} type="file" accept="image/png,image/jpeg,image/jpg"
+        onChange={handleFile} className="hidden" />
+    </div>
+  );
+}
+
 function FormProduto({ dados, set }) {
   return (
     <div className="space-y-3">
+      {/* Upload de imagem primeiro */}
+      <UploadImagem dados={dados} set={set} />
       <div>
         <label className="text-sm font-medium text-gray-700">Nome *</label>
         <input value={dados.nome} onChange={(e) => set((p) => ({ ...p, nome: e.target.value }))}

@@ -55,14 +55,18 @@ export default function Header({ activeTab, setActiveTab, totalItens, usuarioLog
           {/* Usuário logado */}
           {usuarioLogado ? (
             <div className="flex items-center gap-2 ml-1">
-              <div className="flex items-center gap-2 bg-pink-500 px-3 py-1.5 rounded-lg">
+              <button
+                onClick={() => setActiveTab('perfil')}
+                className="flex items-center gap-2 bg-pink-500 hover:bg-pink-400 px-3 py-1.5 rounded-lg transition-colors"
+                title="Meu perfil"
+              >
                 <div className="w-6 h-6 rounded-full bg-white text-pink-600 flex items-center justify-center text-xs font-bold shrink-0">
                   {usuarioLogado.nome.charAt(0).toUpperCase()}
                 </div>
                 <span className="text-sm font-medium hidden md:inline max-w-[120px] truncate">
                   {usuarioLogado.nome.split(' ')[0]}
                 </span>
-              </div>
+              </button>
               <button
                 onClick={onLogout}
                 title="Sair"
