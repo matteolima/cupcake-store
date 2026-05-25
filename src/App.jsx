@@ -4,11 +4,12 @@ import Vitrine from './components/Vitrine';
 import Carrinho from './components/Carrinho';
 import Login from './components/Login';
 import Admin from './components/Admin';
-import { cupcakes } from './data/cupcakes';
+import { cupcakes as cupcakesIniciais } from './data/cupcakes';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('vitrine');
   const [carrinho, setCarrinho] = useState([]);
+  const [cupcakes, setCupcakes] = useState(cupcakesIniciais);
 
   const adicionarAoCarrinho = (cupcake) => {
     setCarrinho((prev) => {
@@ -25,6 +26,17 @@ export default function App() {
   };
 
   const totalItens = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
+  const cupcakesAtivos = cupcakes.filter((c) => c.ativo);
+
+  if (activeTab === 'admin') {
+    return (
+      <Admin
+        cupcakes={cupcakes}
+        setCupcakes={setCupcakes}
+        setActiveTab={setActiveTab}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -36,7 +48,7 @@ export default function App() {
 
       <main className="pb-12">
         {activeTab === 'vitrine' && (
-          <Vitrine cupcakes={cupcakes} adicionarAoCarrinho={adicionarAoCarrinho} />
+          <Vitrine cupcakes={cupcakesAtivos} adicionarAoCarrinho={adicionarAoCarrinho} />
         )}
         {activeTab === 'carrinho' && (
           <Carrinho
@@ -47,9 +59,6 @@ export default function App() {
         )}
         {activeTab === 'login' && (
           <Login setActiveTab={setActiveTab} />
-        )}
-        {activeTab === 'admin' && (
-          <Admin cupcakes={cupcakes} />
         )}
       </main>
 
